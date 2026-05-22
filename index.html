@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welche Saiten habe ich? – Streicherwelt</title>
+<style>
+  /* --- Streicherwelt-Stil: warm, hell, gold-auf-weiss, grosse Schrift --- */
+  :root {
+    --gold:   #b8893a;
+    --gold-d: #936a26;
+    --ink:    #2e2a24;
+    --paper:  #fbf8f2;
+    --line:   #e4dccb;
+    --soft:   #f3ede0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    padding: 24px 16px;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; }
+
+  h1 {
+    font-size: 26px; font-weight: 600; color: var(--gold-d);
+    margin-bottom: 6px;
+  }
+  .untertitel {
+    font-size: 17px; font-style: italic; color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .db-hinweis {
+    font-size: 15px; color: var(--gold-d);
+    background: var(--soft); border: 1px solid var(--line);
+    border-radius: 6px; padding: 10px 14px; margin-bottom: 18px;
+  }
+  .intro { font-size: 17px; margin-bottom: 24px; }
+
+  .step {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 8px; padding: 20px; margin-bottom: 16px;
+  }
+  .step h2 {
+    font-size: 19px; font-weight: 600; color: var(--gold-d);
+    margin-bottom: 4px;
+  }
+  .step .hint { font-size: 15px; color: #6b6356; margin-bottom: 14px; }
+
+  /* zwei Farbfelder nebeneinander, wo Platz ist */
+  .farb-paar { display: flex; gap: 14px; flex-wrap: wrap; }
+  .farb-frage { flex: 1; min-width: 180px; margin-bottom: 4px; }
+  .farb-frage label {
+    display: block; font-size: 15px; margin-bottom: 6px; font-weight: 600;
+  }
+  select {
+    width: 100%; font-size: 17px; font-family: inherit;
+    padding: 10px 12px; border: 1px solid var(--line);
+    border-radius: 6px; background: var(--soft); color: var(--ink);
+  }
+
+  button {
+    font-family: inherit; font-size: 18px; font-weight: 600;
+    background: var(--gold); color: #fff; border: none;
+    padding: 14px 24px; border-radius: 6px; cursor: pointer;
+    width: 100%;
+  }
+  button:hover { background: var(--gold-d); }
+  .reset {
+    background: none; color: var(--gold-d);
+    border: 1px solid var(--line); margin-top: 10px;
+    font-size: 15px; padding: 10px;
+  }
+  .reset:hover { background: var(--soft); }
+
+  /* --- Ergebnisbereich --- */
+  #ergebnis { margin-top: 8px; }
+  .ergebnis-titel {
+    font-size: 17px; font-weight: 600; color: var(--gold-d);
+    margin: 18px 0 10px;
+  }
+  .treffer {
+    background: #fff; border: 1px solid var(--line);
+    border-left: 4px solid var(--gold);
+    border-radius: 6px; padding: 16px; margin-bottom: 12px;
+  }
+  .treffer.schwach { border-left-color: var(--line); }
+  .treffer.gruppe {
+    border-left-color: var(--gold-d);
+    background: var(--soft);
+  }
+  .treffer .gruppe-text {
+    font-size: 15px; color: #6b6356; margin: 6px 0 10px;
+  }
+  .treffer .bemerkung {
+    font-size: 14px; color: #6b6356; font-style: italic;
+    margin: 6px 0 8px;
+  }
+  .treffer .name { font-size: 18px; font-weight: 600; }
+  .treffer .meta { font-size: 15px; color: #6b6356; margin: 2px 0 8px; }
+  .treffer .quote { font-size: 14px; font-weight: 600; color: var(--gold-d); }
+  .treffer .quote.schwach { color: #6b6356; }
+  .treffer a {
+    color: var(--gold-d); font-weight: 600; text-decoration: none;
+    font-size: 15px;
+  }
+  .treffer a:hover { text-decoration: underline; }
+  .kein-treffer {
+    background: var(--soft); border: 1px solid var(--line);
+    border-radius: 6px; padding: 16px; font-size: 16px;
+  }
+  .disclaimer {
+    font-size: 14px; color: #6b6356; margin-top: 18px;
+    border-top: 1px solid var(--line); padding-top: 14px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Welche Saiten habe ich?</h1>
+  <p class="untertitel">Der Streicherwelt-Saitenfinder Violine</p>
+  <p class="db-hinweis" id="db-hinweis"></p>
+  <p class="intro">
+    Geigensaiten tragen an beiden Enden eine farbige Seidenwicklung –
+    am Wirbel und am Saitenhalter. Wählen Sie unten die Farben, die Sie
+    an Ihrer Geige sehen. Sie müssen nicht alle Felder ausfüllen: Was
+    Sie nicht sicher erkennen, lassen Sie auf „unbekannt“. Je mehr
+    Angaben, desto eindeutiger das Ergebnis.
+  </p>
+
+  <!-- Die vier Saiten, jeweils Wirbel + Saitenhalter.
+       Reihenfolge E-A-D-G: von der dünnsten zur dicksten Saite. -->
+  <div class="step">
+    <h2>E-Saite</h2>
+    <p class="hint">Die äußerste Saite rechts, die dünnste.</p>
+    <div class="farb-paar">
+      <div class="farb-frage">
+        <label for="e-peg">Wirbel-Ende</label>
+        <select id="e-peg"></select>
+      </div>
+      <div class="farb-frage">
+        <label for="e-tail">Saitenhalter-Ende</label>
+        <select id="e-tail"></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <h2>A-Saite</h2>
+    <p class="hint">Die zweite Saite von rechts.</p>
+    <div class="farb-paar">
+      <div class="farb-frage">
+        <label for="a-peg">Wirbel-Ende</label>
+        <select id="a-peg"></select>
+      </div>
+      <div class="farb-frage">
+        <label for="a-tail">Saitenhalter-Ende</label>
+        <select id="a-tail"></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <h2>D-Saite</h2>
+    <p class="hint">Die zweite Saite von links.</p>
+    <div class="farb-paar">
+      <div class="farb-frage">
+        <label for="d-peg">Wirbel-Ende</label>
+        <select id="d-peg"></select>
+      </div>
+      <div class="farb-frage">
+        <label for="d-tail">Saitenhalter-Ende</label>
+        <select id="d-tail"></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <h2>G-Saite</h2>
+    <p class="hint">Die äußerste Saite links, die dickste.</p>
+    <div class="farb-paar">
+      <div class="farb-frage">
+        <label for="g-peg">Wirbel-Ende</label>
+        <select id="g-peg"></select>
+      </div>
+      <div class="farb-frage">
+        <label for="g-tail">Saitenhalter-Ende</label>
+        <select id="g-tail"></select>
+      </div>
+    </div>
+  </div>
+
+  <button id="los">Saiten bestimmen</button>
+  <button id="reset" class="reset">Eingaben zurücksetzen</button>
+
+  <div id="ergebnis"></div>
+
+  <p class="disclaimer">
+    Hinweis: Lichtverhältnisse und Spielzeit verändern Farben. Diese
+    Bestimmung ist ein Anhaltspunkt, kein Ersatz für eine Prüfung in
+    der Werkstatt. Bei Unsicherheit beraten wir Sie gern persönlich.
+    <span id="datenstand" style="display:block; margin-top:8px; color:#9a9486;"></span>
+  </p>
+
+</div>
+
+<script src="saiten-daten.js"></script>
+<script>
+  /* --- Auswählbare Farben (müssen zur Datenbank passen) ---
+     Erster Eintrag "" = unbekannt / nicht ausgefüllt.
+     gruppe: "einfarbig" oder "kombi" – steuert nur die optische
+     Trennung im Dropdown.
+
+     NEUE FARBKOMBINATION HINZUFÜGEN:
+     Trägst du in saiten-daten.js eine neue Kombination ein
+     (z. B. "blau-gelb"), dann hier eine Zeile mit gruppe: "kombi"
+     ergänzen. Der wert muss exakt mit saiten-daten.js übereinstimmen
+     (alphabetisch sortiert, kleingeschrieben). */
+  var FARBEN = [
+    { wert: "",        text: "– unbekannt –",            gruppe: "" },
+    { wert: "schwarz", text: "Schwarz",                  gruppe: "einfarbig" },
+    { wert: "weiss",   text: "Weiß",                     gruppe: "einfarbig" },
+    { wert: "rot",     text: "Rot",                      gruppe: "einfarbig" },
+    { wert: "blau",    text: "Blau",                     gruppe: "einfarbig" },
+    { wert: "gruen",   text: "Grün",                     gruppe: "einfarbig" },
+    { wert: "gelb",    text: "Gelb",                     gruppe: "einfarbig" },
+    { wert: "orange",  text: "Orange",                   gruppe: "einfarbig" },
+    { wert: "violett", text: "Violett",                  gruppe: "einfarbig" },
+    { wert: "braun",   text: "Braun",                    gruppe: "einfarbig" },
+    { wert: "grau",    text: "Grau",                     gruppe: "einfarbig" },
+    { wert: "gold",    text: "Gold",                     gruppe: "einfarbig" },
+    { wert: "silber",  text: "Silber",                   gruppe: "einfarbig" },
+    { wert: "tuerkis", text: "Türkis",                   gruppe: "einfarbig" },
+    { wert: "rosa",    text: "Rosa",                     gruppe: "einfarbig" },
+    { wert: "magenta", text: "Magenta",                  gruppe: "einfarbig" },
+    { wert: "keine",   text: "Keine Wicklung sichtbar",  gruppe: "einfarbig" },
+    { wert: "rot-weiss",     text: "Rot / Weiß",         gruppe: "kombi" },
+    { wert: "gruen-schwarz",   text: "Grün / Schwarz",   gruppe: "kombi" },
+    { wert: "rot-schwarz",     text: "Rot / Schwarz",    gruppe: "kombi" },
+    { wert: "orange-schwarz",  text: "Orange / Schwarz", gruppe: "kombi" },
+    { wert: "blau-schwarz",    text: "Blau / Schwarz",   gruppe: "kombi" },
+    { wert: "magenta-weiss",   text: "Magenta / Weiß",   gruppe: "kombi" },
+    { wert: "gelb-schwarz",    text: "Gelb / Schwarz",   gruppe: "kombi" },
+    { wert: "mehrfarbig",      text: "Mehrfarbig (drei o. mehr Farben)", gruppe: "kombi" }
+  ];
+
+  /* alle 8 Auswahlfelder, Reihenfolge E-A-D-G */
+  var FELDER = [
+    "e-peg", "e-tail", "a-peg", "a-tail",
+    "d-peg", "d-tail", "g-peg", "g-tail"
+  ];
+
+  /* --- Farb-Auswahllisten füllen ---
+     Einfarbige Farben und Kombinationen werden in zwei optisch
+     getrennte Gruppen (<optgroup>) gelegt. */
+  FELDER.forEach(function(id) {
+    var sel = document.getElementById(id);
+    var grpEin = document.createElement("optgroup");
+    grpEin.label = "Eine Farbe";
+    var grpKombi = document.createElement("optgroup");
+    grpKombi.label = "Zwei Farben kombiniert";
+
+    FARBEN.forEach(function(f) {
+      var o = document.createElement("option");
+      o.value = f.wert;
+      o.textContent = f.text;
+      if (f.gruppe === "kombi") {
+        grpKombi.appendChild(o);
+      } else if (f.gruppe === "einfarbig") {
+        grpEin.appendChild(o);
+      } else {
+        sel.appendChild(o); // "unbekannt" steht ganz oben, ohne Gruppe
+      }
+    });
+    sel.appendChild(grpEin);
+    if (grpKombi.children.length > 0) {
+      sel.appendChild(grpKombi);
+    }
+  });
+
+  /* --- Erkennungslogik ---
+     Vergleicht die 8 Kundenangaben mit jedem Satz.
+     - Nur ausgefüllte Felder ("unbekannt" zählt nicht) werden geprüft.
+     - Pro Übereinstimmung +1 Punkt.
+     - Ein WIDERSPRUCH (Farbe angegeben, passt aber nicht) macht den
+       Satz ungültig – er kann es dann nicht sein.
+     So senkt eine fehlende Saite das Ergebnis nicht; nur eine
+     falsche Farbe schließt einen Satz aus. */
+  function bewerteSatz(satz, eingabe) {
+    var punkte = 0, geprueft = 0, widerspruch = false;
+    ["g", "d", "a", "e"].forEach(function(saite) {
+      ["peg", "tail"].forEach(function(ende) {
+        var angabe = eingabe[saite + "-" + ende];
+        if (angabe !== "") {
+          geprueft++;
+          if (satz[saite][ende] === angabe) {
+            punkte++;
+          } else {
+            widerspruch = true;
+          }
+        }
+      });
+    });
+    return { punkte: punkte, geprueft: geprueft, widerspruch: widerspruch };
+  }
+
+  function leseEingabe() {
+    var e = {};
+    FELDER.forEach(function(id) {
+      e[id] = document.getElementById(id).value;
+    });
+    return e;
+  }
+
+  document.getElementById("los").addEventListener("click", function() {
+    var eingabe = leseEingabe();
+    var out = document.getElementById("ergebnis");
+
+    var anzahlAusgefuellt = FELDER.filter(function(id) {
+      return eingabe[id] !== "";
+    }).length;
+
+    if (anzahlAusgefuellt < 2) {
+      out.innerHTML =
+        '<div class="kein-treffer">Bitte wählen Sie mindestens ' +
+        'zwei Farben aus, damit wir die Saiten eingrenzen können.</div>';
+      return;
+    }
+
+    /* Alle Sätze bewerten */
+    var alle = SAITEN_DB.map(function(satz) {
+      return { satz: satz, b: bewerteSatz(satz, eingabe) };
+    });
+
+    /* Eindeutige Treffer: kein Widerspruch, mind. 1 Punkt */
+    var treffer = alle.filter(function(e) {
+      return !e.b.widerspruch && e.b.punkte > 0;
+    }).sort(function(x, y) {
+      return y.b.punkte - x.b.punkte;
+    });
+
+    if (treffer.length === 0) {
+      out.innerHTML =
+        '<div class="kein-treffer">Zu Ihren Angaben passt kein Satz ' +
+        'in unserer Liste eindeutig. Möglicherweise handelt es sich um ' +
+        'einen selteneren Satz oder eine Farbe wurde anders erkannt – ' +
+        'schreiben Sie uns gern eine Nachricht, wir helfen weiter.</div>';
+      return;
+    }
+
+    /* --- Gruppen-Zusammenfassung ---
+       Mehrere Treffer derselben "gruppe" werden zu EINEM Hinweis
+       zusammengefasst (z. B. Vision-Familie). Einzeltreffer und
+       Treffer ohne Gruppe bleiben unverändert. */
+    var gruppenZaehler = {};
+    treffer.forEach(function(e) {
+      var g = e.satz.gruppe;
+      if (g) { gruppenZaehler[g] = (gruppenZaehler[g] || 0) + 1; }
+    });
+
+    /* Texte pro Gruppe – hier bei Bedarf weitere Gruppen ergänzen. */
+    var GRUPPEN_TEXT = {
+      vision: {
+        titel: "Ihre Saiten gehören zur erweiterten Vision-Familie",
+        text: "Mit einem mehrfarbigen Wirbel-Ende kommen Vision Solo, " +
+              "Vision Titanium Orchestra und Vision Titanium Solo in " +
+              "Frage. Diese drei Sätze sind am Instrument nur schwer " +
+              "sicher zu unterscheiden. Schreiben Sie uns kurz – wir " +
+              "bestimmen den genauen Satz für Sie.",
+        link: "https://streicherwelt.de/pages/contact"
+      },
+      "il-cannone": {
+        titel: "Ihre Saiten gehören zur Larsen Il-Cannone-Familie",
+        text: "Il Cannone und Il Cannone direct & focused tragen " +
+              "dieselben Wicklungsfarben. Sie unterscheiden sich nur " +
+              "durch kleine Striche am Wirbel-Ende: Il Cannone hat " +
+              "an A-, D- und G-Saite zwei bis vier schwarze Striche, " +
+              "die Variante direct & focused dort zusätzlich einen " +
+              "breiteren blauen Strich. Schreiben Sie uns – wir " +
+              "bestimmen den genauen Satz für Sie.",
+        link: "https://streicherwelt.de/pages/contact"
+      }
+    };
+
+    /* Ausgabe */
+    var html = '';
+    var gezeigteGruppen = {};
+    var einzelTreffer = treffer.filter(function(e) {
+      return !(e.satz.gruppe && gruppenZaehler[e.satz.gruppe] > 1);
+    });
+    var hatGruppe = Object.keys(gruppenZaehler).some(function(g) {
+      return gruppenZaehler[g] > 1;
+    });
+
+    if (einzelTreffer.length > 0) {
+      html += '<div class="ergebnis-titel">';
+      html += einzelTreffer.length === 1
+        ? 'Das passt zu Ihren Angaben:'
+        : 'Diese Sätze kommen in Frage – die obersten passen am besten:';
+      html += '</div>';
+    }
+
+    treffer.forEach(function(e) {
+      /* Gehört der Treffer zu einer Mehrfach-Gruppe? Dann Hinweis. */
+      if (e.satz.gruppe && gruppenZaehler[e.satz.gruppe] > 1) {
+        if (gezeigteGruppen[e.satz.gruppe]) { return; }
+        gezeigteGruppen[e.satz.gruppe] = true;
+        var gt = GRUPPEN_TEXT[e.satz.gruppe];
+        if (gt) {
+          html +=
+            '<div class="treffer gruppe">' +
+            '<div class="name">' + gt.titel + '</div>' +
+            '<div class="gruppe-text">' + gt.text + '</div>' +
+            '<div><a href="' + gt.link + '" target="_blank">' +
+            'Werkstatt kontaktieren</a></div>' +
+            '</div>';
+        }
+        return;
+      }
+      /* Normaler Einzeltreffer */
+      var grad = Math.round((e.b.punkte / e.b.geprueft) * 100);
+      var schwach = grad < 100 ? " schwach" : "";
+      html +=
+        '<div class="treffer' + schwach + '">' +
+        '<div class="name">' + e.satz.hersteller + " " + e.satz.name + '</div>' +
+        '<div class="meta">' + e.satz.kern + '</div>' +
+        '<div class="quote' + schwach + '">' +
+        e.b.punkte + ' von ' + e.b.geprueft +
+        ' geprüften Farben stimmen überein (' + grad + ' %)</div>' +
+        (e.satz.bemerkung
+          ? '<div class="bemerkung">Zur Bestätigung: ' +
+            e.satz.bemerkung + '</div>'
+          : '') +
+        (e.satz.shopUrl
+          ? '<div><a href="' + e.satz.shopUrl + '" target="_blank">' +
+            'Diesen Satz im Shop ansehen</a></div>'
+          : '') +
+        '</div>';
+    });
+    out.innerHTML = html;
+  });
+
+  document.getElementById("reset").addEventListener("click", function() {
+    FELDER.forEach(function(id) {
+      document.getElementById(id).value = "";
+    });
+    document.getElementById("ergebnis").innerHTML = "";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  /* Datenstand anzeigen – macht sofort sichtbar, welche
+     Version der Datenbank geladen ist. */
+  document.getElementById("datenstand").textContent =
+    (typeof SAITEN_DB_VERSION !== "undefined")
+      ? SAITEN_DB_VERSION
+      : "Datenstand unbekannt – bitte saiten-daten.js prüfen";
+
+  /* Datenbank-Hinweis oben: Anzahl der Sätze wird automatisch
+     aus SAITEN_DB gezählt – muss nicht von Hand gepflegt werden. */
+  var anzahlSaetze = SAITEN_DB.length;
+  document.getElementById("db-hinweis").textContent =
+    "Aktuell vergleicht der Saitenfinder " + anzahlSaetze +
+    " verschiedene Violinsaiten-Sätze. Die Datenbank wird " +
+    "laufend erweitert – schauen Sie gern wieder vorbei.";
+</script>
+</body>
+</html>
