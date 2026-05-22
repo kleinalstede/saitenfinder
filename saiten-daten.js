@@ -72,7 +72,7 @@
 /* Datenstand – bei jeder Datenänderung das Datum hochzählen.
    Wird unten in der App angezeigt, damit man die geladene
    Version sofort erkennt. */
-const SAITEN_DB_VERSION = "Datenstand 2026-05-22 (25 Saetze, Reihenfolge SH-Wirbel)";
+const SAITEN_DB_VERSION = "Datenstand 2026-05-22 (28 Saetze)";
 
 const SAITEN_DB = [
   {
@@ -84,7 +84,7 @@ const SAITEN_DB = [
     d: { peg: "rosa",    tail: "rot-weiss" },
     a: { peg: "schwarz", tail: "rot-weiss" },
     e: { peg: "gruen",   tail: "rot" },
-    shopUrl: "https://streicherwelt.de/products/satz-pirastro-tonica-violine"
+    shopUrl: "https://streicherwelt.de/products/satz-pirastro-tonica-violine-gr-4-4-new-formula"
   },
   {
     id: "pirastro-evah-pirazzi",
@@ -95,7 +95,7 @@ const SAITEN_DB = [
     d: { peg: "rosa",    tail: "gruen-schwarz" },
     a: { peg: "schwarz", tail: "gruen-schwarz" },
     e: { peg: "gruen",   tail: "gruen" },
-    shopUrl: "https://streicherwelt.de/products/satz-pirastro-evah-pirazzi-violine"
+    shopUrl: "https://streicherwelt.de/products/satz-pirastro-evah-pirazzi-violine-4-4"
   },
   {
     id: "pirastro-obligato",
@@ -106,7 +106,7 @@ const SAITEN_DB = [
     d: { peg: "rosa",    tail: "rot-schwarz" },
     a: { peg: "schwarz", tail: "rot-schwarz" },
     e: { peg: "gruen",   tail: "schwarz" },
-    shopUrl: ""
+    shopUrl: "https://streicherwelt.de/products/satz-pirastro-obligato-violine-4-4-e-stahl"
   },
   {
     id: "pirastro-evah-pirazzi-gold",
@@ -124,6 +124,9 @@ const SAITEN_DB = [
     hersteller: "Pirastro",
     name: "Perpetual",
     kern: "Synthetikkern",
+    bemerkung: "Zeigt das Wirbel-Ende zusätzlich kurze rosa " +
+               "Abschnitte, handelt es sich um die Variante " +
+               "Perpetual Cadenza.",
     g: { peg: "braun",   tail: "magenta-weiss" },
     d: { peg: "rosa",    tail: "magenta-weiss" },
     a: { peg: "schwarz", tail: "magenta-weiss" },
@@ -139,7 +142,7 @@ const SAITEN_DB = [
     d: { peg: "rosa",    tail: "blau-schwarz" },
     a: { peg: "schwarz", tail: "blau-schwarz" },
     e: { peg: "gruen",   tail: "blau" },
-    shopUrl: "https://streicherwelt.de/products/satz-pirastro-violino-violine"
+    shopUrl: "https://streicherwelt.de/products/satz-pirastro-violino-violine-gr-4-4"
   },
   {
     id: "thomastik-alphayue",
@@ -150,7 +153,7 @@ const SAITEN_DB = [
     d: { peg: "grau", tail: "gruen" },
     a: { peg: "grau", tail: "blau" },
     e: { peg: "grau", tail: "blau" },
-    shopUrl: "https://streicherwelt.de/products/satz-saiten-violine-thomastik-alphayue-verschiedene-grossen"
+    shopUrl: "https://streicherwelt.de/products/satz-saiten-violine-4-4-thomastik-alphayue-verschiedene-grossen"
   },
   {
     id: "thomastik-dominant-135b",
@@ -161,7 +164,7 @@ const SAITEN_DB = [
     d: { peg: "violett", tail: "gruen" },
     a: { peg: "violett", tail: "blau" },
     e: { peg: "violett", tail: "violett" },
-    shopUrl: "https://streicherwelt.de/products/satz-saiten-violine-thomastik-dominant"
+    shopUrl: "https://streicherwelt.de/products/satz-saiten-violine-thomastik-dominant-4-4-e-stahl"
   },
   {
     id: "thomastik-dominant-pro-dp100",
@@ -183,7 +186,7 @@ const SAITEN_DB = [
     d: { peg: "gruen",   tail: "orange" },
     a: { peg: "blau",    tail: "orange" },
     e: { peg: "schwarz", tail: "orange" },
-    shopUrl: "https://streicherwelt.de/products/satz-violinsaiten-thomastik-peter-infeld-pi"
+    shopUrl: ""
   },
   {
     id: "thomastik-vision-vi100",
@@ -206,7 +209,7 @@ const SAITEN_DB = [
     d: { peg: "mehrfarbig", tail: "gruen" },
     a: { peg: "mehrfarbig", tail: "gruen" },
     e: { peg: "mehrfarbig", tail: "gruen" },
-    shopUrl: "https://streicherwelt.de/products/satz-thomastik-vision-solo-violine-4-4"
+    shopUrl: "https://streicherwelt.de/products/satz-thomastik-vision-solo-violine-4-4-kopie"
   },
   {
     id: "thomastik-vision-titanium-orchestra",
@@ -218,7 +221,7 @@ const SAITEN_DB = [
     d: { peg: "mehrfarbig", tail: "gruen" },
     a: { peg: "mehrfarbig", tail: "gruen" },
     e: { peg: "mehrfarbig", tail: "gruen" },
-    shopUrl: "https://streicherwelt.de/products/satz-thomastik-vision-titanium-orchestra-violine"
+    shopUrl: "https://streicherwelt.de/products/satz-thomastik-vision-titantium-orchestra"
   },
   {
     id: "thomastik-vision-titanium-solo",
@@ -230,7 +233,7 @@ const SAITEN_DB = [
     d: { peg: "mehrfarbig", tail: "gruen" },
     a: { peg: "mehrfarbig", tail: "gruen" },
     e: { peg: "mehrfarbig", tail: "gruen" },
-    shopUrl: "https://streicherwelt.de/products/satz-violinsaiten-thomastik-vision-titanium-solo"
+    shopUrl: "https://streicherwelt.de/products/satz-violinisaiten-thomastik-vision-titanium-solo"
   },
   {
     id: "thomastik-rondo-ro100",
@@ -307,7 +310,7 @@ const SAITEN_DB = [
     d: { peg: "gelb", tail: "magenta" },
     a: { peg: "gelb", tail: "rosa" },
     e: { peg: "gelb", tail: "gelb" },
-    shopUrl: "https://streicherwelt.de/products/satz-larsen-aurora-violine-4-4"
+    shopUrl: "https://streicherwelt.de/products/neuheit-satz-larsen-aurora-violine-4-4"
   },
   {
     id: "larsen-il-cannone-silver",
@@ -345,7 +348,7 @@ const SAITEN_DB = [
     d: { peg: "gruen", tail: "gelb-schwarz" },
     a: { peg: "gruen", tail: "gelb-schwarz" },
     e: { peg: "gruen", tail: "blau" },
-    shopUrl: "https://streicherwelt.de/products/satz-saiten-violine-larsen-il-cannone-medium"
+    shopUrl: "https://streicherwelt.de/products/satz-saiten-violine-larsen-il-cannone-sonderedition-2-e-saiten"
   },
   {
     id: "larsen-il-cannone-direct-focused",
@@ -361,6 +364,39 @@ const SAITEN_DB = [
     a: { peg: "gruen", tail: "gelb-schwarz" },
     e: { peg: "gruen", tail: "blau" },
     shopUrl: ""
+  },
+  {
+    id: "pirastro-piranito",
+    hersteller: "Pirastro",
+    name: "Piranito",
+    kern: "Stahlseilkern",
+    g: { peg: "braun",   tail: "grau" },
+    d: { peg: "rot",     tail: "grau" },
+    a: { peg: "schwarz", tail: "grau" },
+    e: { peg: "gruen",   tail: "grau" },
+    shopUrl: "https://streicherwelt.de/products/satz-violinsaiten-pirastro-piranito-alle-grossen"
+  },
+  {
+    id: "pirastro-chromcor",
+    hersteller: "Pirastro",
+    name: "Chromcor",
+    kern: "Stahlseilkern",
+    g: { peg: "braun",   tail: "gruen" },
+    d: { peg: "rot",     tail: "gruen" },
+    a: { peg: "schwarz", tail: "gruen" },
+    e: { peg: "gruen",   tail: "gruen" },
+    shopUrl: "https://streicherwelt.de/products/pirastro-chromcor-satz-violinsaiten"
+  },
+  {
+    id: "pirastro-evah-pirazzi-neo",
+    hersteller: "Pirastro",
+    name: "Evah Pirazzi Neo",
+    kern: "Synthetikkern",
+    g: { peg: "braun",   tail: "petrol-schwarz" },
+    d: { peg: "rosa",    tail: "petrol-schwarz" },
+    a: { peg: "schwarz", tail: "petrol-schwarz" },
+    e: { peg: "gruen",   tail: "petrol" },
+    shopUrl: "https://streicherwelt.de/products/brandneu-satz-violinsaiten-pirastro-evah-pirazzi-neo"
   }
 ];
 
