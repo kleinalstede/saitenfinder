@@ -38,6 +38,11 @@
     border-radius: 6px; padding: 10px 14px; margin-bottom: 18px;
   }
   .intro { font-size: 17px; margin-bottom: 24px; }
+  .intro-hinweis {
+    font-size: 15px; color: #6b6356;
+    background: var(--soft); border-left: 3px solid var(--gold);
+    border-radius: 4px; padding: 10px 14px; margin: -10px 0 24px;
+  }
 
   .step {
     background: #fff; border: 1px solid var(--line);
@@ -111,6 +116,14 @@
     background: var(--soft); border: 1px solid var(--line);
     border-radius: 6px; padding: 16px; font-size: 16px;
   }
+  .kein-treffer p { margin-bottom: 10px; }
+  .mail-knopf {
+    display: inline-block; margin-top: 6px;
+    font-size: 16px; font-weight: 600;
+    background: var(--gold); color: #fff; text-decoration: none;
+    padding: 12px 20px; border-radius: 6px;
+  }
+  .mail-knopf:hover { background: var(--gold-d); }
   .disclaimer {
     font-size: 14px; color: #6b6356; margin-top: 18px;
     border-top: 1px solid var(--line); padding-top: 14px;
@@ -125,10 +138,17 @@
   <p class="db-hinweis" id="db-hinweis"></p>
   <p class="intro">
     Geigensaiten tragen an beiden Enden eine farbige Seidenwicklung –
-    am Wirbel und am Saitenhalter. Wählen Sie unten die Farben, die Sie
+    am Saitenhalter und am Wirbel. Wählen Sie unten die Farben, die Sie
     an Ihrer Geige sehen. Sie müssen nicht alle Felder ausfüllen: Was
     Sie nicht sicher erkennen, lassen Sie auf „unbekannt“. Je mehr
     Angaben, desto eindeutiger das Ergebnis.
+  </p>
+  <p class="intro-hinweis">
+    Ein Hinweis vorab: Der Saitenfinder vergleicht vollständige
+    Saitensätze. Ist Ihre Geige gemischt besaitet – etwa eine E-Saite
+    eines anderen Herstellers als G, D und A –, lässt sie sich hier
+    nicht zuverlässig bestimmen. Schreiben Sie uns in diesem Fall gern
+    direkt, wir helfen Ihnen weiter.
   </p>
 
   <!-- Die vier Saiten, jeweils Wirbel + Saitenhalter.
@@ -138,12 +158,12 @@
     <p class="hint">Die äußerste Saite rechts, die dünnste.</p>
     <div class="farb-paar">
       <div class="farb-frage">
-        <label for="e-peg">Wirbel-Ende</label>
-        <select id="e-peg"></select>
-      </div>
-      <div class="farb-frage">
         <label for="e-tail">Saitenhalter-Ende</label>
         <select id="e-tail"></select>
+      </div>
+      <div class="farb-frage">
+        <label for="e-peg">Wirbel-Ende</label>
+        <select id="e-peg"></select>
       </div>
     </div>
   </div>
@@ -153,12 +173,12 @@
     <p class="hint">Die zweite Saite von rechts.</p>
     <div class="farb-paar">
       <div class="farb-frage">
-        <label for="a-peg">Wirbel-Ende</label>
-        <select id="a-peg"></select>
-      </div>
-      <div class="farb-frage">
         <label for="a-tail">Saitenhalter-Ende</label>
         <select id="a-tail"></select>
+      </div>
+      <div class="farb-frage">
+        <label for="a-peg">Wirbel-Ende</label>
+        <select id="a-peg"></select>
       </div>
     </div>
   </div>
@@ -168,12 +188,12 @@
     <p class="hint">Die zweite Saite von links.</p>
     <div class="farb-paar">
       <div class="farb-frage">
-        <label for="d-peg">Wirbel-Ende</label>
-        <select id="d-peg"></select>
-      </div>
-      <div class="farb-frage">
         <label for="d-tail">Saitenhalter-Ende</label>
         <select id="d-tail"></select>
+      </div>
+      <div class="farb-frage">
+        <label for="d-peg">Wirbel-Ende</label>
+        <select id="d-peg"></select>
       </div>
     </div>
   </div>
@@ -183,12 +203,12 @@
     <p class="hint">Die äußerste Saite links, die dickste.</p>
     <div class="farb-paar">
       <div class="farb-frage">
-        <label for="g-peg">Wirbel-Ende</label>
-        <select id="g-peg"></select>
-      </div>
-      <div class="farb-frage">
         <label for="g-tail">Saitenhalter-Ende</label>
         <select id="g-tail"></select>
+      </div>
+      <div class="farb-frage">
+        <label for="g-peg">Wirbel-Ende</label>
+        <select id="g-peg"></select>
       </div>
     </div>
   </div>
@@ -343,11 +363,55 @@
     });
 
     if (treffer.length === 0) {
+      /* Eingegebene Farben in lesbaren Text übersetzen –
+         für die E-Mail an die Werkstatt. */
+      function farbText(wert) {
+        for (var i = 0; i < FARBEN.length; i++) {
+          if (FARBEN[i].wert === wert) { return FARBEN[i].text; }
+        }
+        return wert;
+      }
+      var saitenNamen = { e: "E-Saite", a: "A-Saite",
+                          d: "D-Saite", g: "G-Saite" };
+      var zeilen = [];
+      ["e", "a", "d", "g"].forEach(function(saite) {
+        var peg  = eingabe[saite + "-peg"];
+        var tail = eingabe[saite + "-tail"];
+        zeilen.push(
+          saitenNamen[saite] + ": " +
+          "Saitenhalter-Ende " + (tail ? farbText(tail) : "unbekannt") + ", " +
+          "Wirbel-Ende " + (peg ? farbText(peg) : "unbekannt")
+        );
+      });
+
+      /* Mailtext zusammensetzen. %0D%0A = Zeilenumbruch in einer
+         mailto-Adresse, %20 = Leerzeichen. */
+      var betreff = "Saitenfinder-Anfrage: Saiten bestimmen";
+      var koerper =
+        "Hallo Streicherwelt-Team," + "\n\n" +
+        "der Saitenfinder konnte meine Saiten nicht eindeutig " +
+        "bestimmen. Hier meine Angaben:" + "\n\n" +
+        zeilen.join("\n") + "\n\n" +
+        "Bitte helfen Sie mir bei der Bestimmung." + "\n\n" +
+        "Mein Name: " + "\n" +
+        "Meine Rückrufnummer (optional): ";
+      var mailto =
+        "mailto:info@streicherwelt.de" +
+        "?subject=" + encodeURIComponent(betreff) +
+        "&body=" + encodeURIComponent(koerper);
+
       out.innerHTML =
-        '<div class="kein-treffer">Zu Ihren Angaben passt kein Satz ' +
-        'in unserer Liste eindeutig. Möglicherweise handelt es sich um ' +
-        'einen selteneren Satz oder eine Farbe wurde anders erkannt – ' +
-        'schreiben Sie uns gern eine Nachricht, wir helfen weiter.</div>';
+        '<div class="kein-treffer">' +
+        '<p>Zu Ihren Angaben passt kein Satz in unserer Liste ' +
+        'eindeutig. Möglicherweise handelt es sich um einen ' +
+        'selteneren Satz, eine gemischte Besaitung, oder eine Farbe ' +
+        'wurde anders erkannt.</p>' +
+        '<p>Senden Sie uns Ihre Angaben – wir schauen in der ' +
+        'Werkstatt nach und sagen Ihnen, welche Saiten es sind. ' +
+        'Ihre Farbangaben sind in der E-Mail bereits eingetragen.</p>' +
+        '<a class="mail-knopf" href="' + mailto + '">' +
+        'Angaben per E-Mail an die Werkstatt senden</a>' +
+        '</div>';
       return;
     }
 
