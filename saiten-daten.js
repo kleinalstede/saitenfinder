@@ -72,7 +72,7 @@
 /* Datenstand – bei jeder Datenänderung das Datum hochzählen.
    Wird unten in der App angezeigt, damit man die geladene
    Version sofort erkennt. */
-const SAITEN_DB_VERSION = "Datenstand 2026-05-22 (28 Saetze, Umami-Events v2)";
+const SAITEN_DB_VERSION = "Datenstand 2026-05-22 (28 Saetze, Nutzung als Seitenaufruf)";
 
 const SAITEN_DB = [
   {

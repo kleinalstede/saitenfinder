@@ -343,18 +343,24 @@
   }
 
   document.getElementById("los").addEventListener("click", function() {
-    /* Echte Nutzung an Umami melden – ein Ereignis pro Klick auf
-       "Saiten bestimmen". Umami stellt die Funktion je nach Version
-       unterschiedlich bereit: window.umami.track(...) oder
-       window.umami(...) direkt. Wir versuchen beide Wege und fangen
-       jeden Fehler ab, damit ein nicht geladenes Skript (z. B.
-       wegen Adblocker) die App nicht stört. */
+    /* Echte Nutzung an Umami melden.
+       Statt eines Event-Aufrufs (der in der iframe-Einbettung nicht
+       zuverlässig ankam) melden wir einen normalen Seitenaufruf der
+       gedachten Unterseite "/saiten-bestimmt". Seitenaufrufe zählt
+       Umami zuverlässig – die Zahl erscheint im Dashboard unter
+       "Pages" als Zeile /saiten-bestimmt. Jeder Fehler wird
+       abgefangen, damit Analytics die App nie blockiert. */
     try {
       if (typeof window.umami !== "undefined") {
         if (typeof window.umami.track === "function") {
-          window.umami.track("saiten-bestimmt");
+          window.umami.track(function (props) {
+            return Object.assign({}, props, {
+              url: "/saiten-bestimmt",
+              title: "Saiten bestimmt"
+            });
+          });
         } else if (typeof window.umami === "function") {
-          window.umami("saiten-bestimmt");
+          window.umami("/saiten-bestimmt");
         }
       }
     } catch (e) {
