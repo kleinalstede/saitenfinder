@@ -227,6 +227,15 @@
 
 </div>
 
+<!-- Vercel Web Analytics – zählt Seitenaufrufe und eigene Ereignisse.
+     Funktioniert nur, wenn Analytics im Vercel-Dashboard aktiviert ist. -->
+<script>
+  window.va = window.va || function () {
+    (window.vaq = window.vaq || []).push(arguments);
+  };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+
 <script src="saiten-daten.js"></script>
 <script>
   /* --- Auswählbare Farben (müssen zur Datenbank passen) ---
@@ -338,6 +347,12 @@
   }
 
   document.getElementById("los").addEventListener("click", function() {
+    /* Echte Nutzung an Vercel Analytics melden – ein Ereignis
+       pro Klick auf "Saiten bestimmen". */
+    if (typeof window.va === "function") {
+      window.va("event", { name: "saiten-bestimmt" });
+    }
+
     var eingabe = leseEingabe();
     var out = document.getElementById("ergebnis");
 
