@@ -227,14 +227,10 @@
 
 </div>
 
-<!-- Vercel Web Analytics – zählt Seitenaufrufe und eigene Ereignisse.
-     Funktioniert nur, wenn Analytics im Vercel-Dashboard aktiviert ist. -->
-<script>
-  window.va = window.va || function () {
-    (window.vaq = window.vaq || []).push(arguments);
-  };
-</script>
-<script defer src="/_vercel/insights/script.js"></script>
+<!-- Umami Web Analytics (cookiefrei) – zählt Seitenaufrufe und das
+     Ereignis "saiten-bestimmt". Verwaltung unter cloud.umami.is. -->
+<script defer src="https://cloud.umami.is/script.js"
+        data-website-id="d76b75ee-1451-42fe-ad5d-94bc68de39fa"></script>
 
 <script src="saiten-daten.js"></script>
 <script>
@@ -347,10 +343,12 @@
   }
 
   document.getElementById("los").addEventListener("click", function() {
-    /* Echte Nutzung an Vercel Analytics melden – ein Ereignis
-       pro Klick auf "Saiten bestimmen". */
-    if (typeof window.va === "function") {
-      window.va("event", { name: "saiten-bestimmt" });
+    /* Echte Nutzung an Umami melden – ein Ereignis pro Klick
+       auf "Saiten bestimmen". Die Prüfung auf window.umami
+       verhindert einen Fehler, falls das Skript (z. B. durch
+       einen Adblocker) nicht geladen wurde. */
+    if (typeof window.umami !== "undefined") {
+      window.umami.track("saiten-bestimmt");
     }
 
     var eingabe = leseEingabe();
