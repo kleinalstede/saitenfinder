@@ -343,12 +343,22 @@
   }
 
   document.getElementById("los").addEventListener("click", function() {
-    /* Echte Nutzung an Umami melden – ein Ereignis pro Klick
-       auf "Saiten bestimmen". Die Prüfung auf window.umami
-       verhindert einen Fehler, falls das Skript (z. B. durch
-       einen Adblocker) nicht geladen wurde. */
-    if (typeof window.umami !== "undefined") {
-      window.umami.track("saiten-bestimmt");
+    /* Echte Nutzung an Umami melden – ein Ereignis pro Klick auf
+       "Saiten bestimmen". Umami stellt die Funktion je nach Version
+       unterschiedlich bereit: window.umami.track(...) oder
+       window.umami(...) direkt. Wir versuchen beide Wege und fangen
+       jeden Fehler ab, damit ein nicht geladenes Skript (z. B.
+       wegen Adblocker) die App nicht stört. */
+    try {
+      if (typeof window.umami !== "undefined") {
+        if (typeof window.umami.track === "function") {
+          window.umami.track("saiten-bestimmt");
+        } else if (typeof window.umami === "function") {
+          window.umami("saiten-bestimmt");
+        }
+      }
+    } catch (e) {
+      /* Analytics darf die App nie blockieren – Fehler ignorieren. */
     }
 
     var eingabe = leseEingabe();
