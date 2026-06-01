@@ -72,7 +72,7 @@
 /* Datenstand – bei jeder Datenänderung das Datum hochzählen.
    Wird unten in der App angezeigt, damit man die geladene
    Version sofort erkennt. */
-const SAITEN_DB_VERSION = "Datenstand 2026-05-22 (28 Saetze, Nutzung als Seitenaufruf)";
+const SAITEN_DB_VERSION = "Datenstand 2026-05-27 (31 Saetze, +D'Addario Prelude/Helicore/Zyex)";
 
 const SAITEN_DB = [
   {
@@ -397,6 +397,57 @@ const SAITEN_DB = [
     a: { peg: "schwarz", tail: "petrol-schwarz" },
     e: { peg: "gruen",   tail: "petrol" },
     shopUrl: "https://streicherwelt.de/products/brandneu-satz-violinsaiten-pirastro-evah-pirazzi-neo"
+  },
+  {
+    id: "daddario-prelude",
+    hersteller: "D'Addario",
+    name: "Prelude (medium)",
+    kern: "Stahlkern",
+    /* D'Addario-Hauslinie: peg end codiert die Tonlage einheitlich
+       fuer ALLE D'Addario-Saetze (E gruen, A schwarz, D gelb, G rot).
+       Saitenhalter-Ende bei Prelude einfarbig blau auf allen Saiten. */
+    g: { peg: "rot",     tail: "blau" },
+    d: { peg: "gelb",    tail: "blau" },
+    a: { peg: "schwarz", tail: "blau" },
+    e: { peg: "gruen",   tail: "blau" },
+    bemerkung: "Am Wirbelende codiert D'Addario die Saitenstaerke: " +
+               "ohne Zusatzmarkierung = medium (so wie hier erkannt), " +
+               "kleiner gelber Abschnitt = light, " +
+               "kleiner oranger Abschnitt = heavy.",
+    shopUrl: "https://streicherwelt.de/products/satz-daddario-prelude-violine-gr-4-4-3-4-1-2-1-4-1-8"
+  },
+  {
+    id: "daddario-helicore",
+    hersteller: "D'Addario",
+    name: "Helicore (medium)",
+    kern: "Stahlseilkern",
+    /* Saitenhalter-Ende einheitlich blau-gelb auf allen Saiten. */
+    g: { peg: "rot",     tail: "blau-gelb" },
+    d: { peg: "gelb",    tail: "blau-gelb" },
+    a: { peg: "schwarz", tail: "blau-gelb" },
+    e: { peg: "gruen",   tail: "blau-gelb" },
+    bemerkung: "Am Wirbelende codiert D'Addario die Saitenstaerke: " +
+               "ohne Zusatzmarkierung = medium (so wie hier erkannt), " +
+               "kleiner gelber Abschnitt = light, " +
+               "kleiner oranger Abschnitt = heavy.",
+    /* Platzhalter, Shop-Link wird nachgeliefert (Schema wie Zyex/Prelude). */
+    shopUrl: ""
+  },
+  {
+    id: "daddario-zyex",
+    hersteller: "D'Addario",
+    name: "Zyex (medium)",
+    kern: "Synthetikkern (Zyex-Polymer)",
+    /* Saitenhalter-Ende einheitlich gelb-orange auf allen Saiten. */
+    g: { peg: "rot",     tail: "gelb-orange" },
+    d: { peg: "gelb",    tail: "gelb-orange" },
+    a: { peg: "schwarz", tail: "gelb-orange" },
+    e: { peg: "gruen",   tail: "gelb-orange" },
+    bemerkung: "Am Wirbelende codiert D'Addario die Saitenstaerke: " +
+               "ohne Zusatzmarkierung = medium (so wie hier erkannt), " +
+               "kleiner gelber Abschnitt = light, " +
+               "kleiner oranger Abschnitt = heavy.",
+    shopUrl: "https://streicherwelt.de/products/satz-daddario-zyex-violine-gr-4-4"
   }
 ];
 
