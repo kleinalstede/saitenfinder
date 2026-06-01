@@ -72,7 +72,7 @@
 /* Datenstand – bei jeder Datenänderung das Datum hochzählen.
    Wird unten in der App angezeigt, damit man die geladene
    Version sofort erkennt. */
-const SAITEN_DB_VERSION = "Datenstand 2026-05-27 (31 Saetze, +D'Addario Prelude/Helicore/Zyex)";
+const SAITEN_DB_VERSION = "Datenstand 2026-05-27 (31 Saetze, Helicore-Link)";
 
 const SAITEN_DB = [
   {
@@ -430,8 +430,7 @@ const SAITEN_DB = [
                "ohne Zusatzmarkierung = medium (so wie hier erkannt), " +
                "kleiner gelber Abschnitt = light, " +
                "kleiner oranger Abschnitt = heavy.",
-    /* Platzhalter, Shop-Link wird nachgeliefert (Schema wie Zyex/Prelude). */
-    shopUrl: ""
+    shopUrl: "https://streicherwelt.de/products/satz-daddario-helicore-violine-gr-4-4"
   },
   {
     id: "daddario-zyex",
